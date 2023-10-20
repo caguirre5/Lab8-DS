@@ -8,26 +8,88 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <aside>
+        <form onSubmit={{}}>
+          <div>
+            <label>
+              Área:
+              <input
+                type="number"
+                name="area"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Habitaciones:
+              <input
+                type="number"
+                name="rooms"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Baños:
+              <input
+                type="number"
+                name="bathroom"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Plazas de Aparcamiento:
+              <input
+                type="number"
+                name="parkingSpaces"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Piso:
+              <input
+                type="number"
+                name="floor"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Animal permitido:
+              <input
+                type="checkbox"
+                name="animalAcept"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Amueblado:
+              <input
+                type="checkbox"
+                name="furnitureFurnished"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Ciudad:
+              <select
+                name="selectedCity"
+              >
+                <option value="Belo Horizonte">Belo Horizonte</option>
+                <option value="Campinas">Campinas</option>
+                <option value="Porto Alegre">Porto Alegre</option>
+                <option value="Rio de Janeiro">Rio de Janeiro</option>
+                <option value="São Paulo">São Paulo</option>
+              </select>
+            </label>
+          </div>
+          <button type="submit">Enviar</button>
+        </form>
+      </aside>
     </>
   )
 }
