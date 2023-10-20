@@ -14,49 +14,51 @@ function App() {
     animalNotAcept: 1,
     furnitureFurnished: 0,
     furnitureNotFurnished: 1,
-    selectedCity: 'Belo Horizonte',
+    cityBeloHorizonte: 1,
+    cityCampinas: 0,
+    cityPortoAlegre: 0,
+    cityRiodeJaneiro: 0,
+    citySãoPaulo: 0,
+    hoa: 0, // Valor inicial
+    rentAmount: 0, // Valor inicial
+    propertyTax: 0, // Valor inicial
+    fireInsurance: 0, // Valor inicial
+    total: 0, // Valor inicial
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Serializar los datos del formulario en un objeto JSON
-    const data = {
-      area: formData.area,
-      rooms: formData.rooms,
-      bathroom: formData.bathroom,
-      parkingSpaces: formData.parkingSpaces,
-      floor: formData.floor,
-      animal_acept: formData.animalAcept,
-      animal_not_acept: formData.animalNotAcept,
-      furniture_furnished: formData.furnitureFurnished,
-      furniture_not_furnished: formData.furnitureNotFurnished,
-      selectedCity: formData.selectedCity,
-    };
-    console.log(data)
+    // Construye la URL con los valores de formData
+    const url = new URL('https://caguirre5.pythonanywhere.com');
+    Object.entries(formData).forEach(([key, value]) => {
+      url.searchParams.append(key, value);
+    });
 
-    // Realizar la solicitud al servidor Flask
-    // try {
-    //   const response = await fetch('https://caguirre5.pythonanywhere.com/', {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     // Convierte los datos en una cadena JSON antes de enviarlos
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   if (response.ok) {
-    //     // Manejar la respuesta del servidor
-    //     const result = await response.json();
-    //     // Hacer algo con los resultados (por ejemplo, mostrarlos en la interfaz de usuario)
-    //     console.log(result);
-    //   } else {
-    //     // Manejar errores en la respuesta
-    //     console.error('Error al obtener los datos del servidor');
-    //   }
-    // } catch (error) {
-    //   console.error('Error de red:', error);
-    // }
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        // Actualiza el estado con los resultados
+        setFormData({
+          ...formData,
+          hoa: result["hoa (R$)"],
+          rentAmount: result["rent amount (R$)"],
+          propertyTax: result["property tax (R$)"],
+          fireInsurance: result["fire insurance (R$)"],
+          total: result["total (R$)"],
+        });
+      } else {
+        console.error('Error al obtener los datos del servidor');
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -67,8 +69,21 @@ function App() {
       setFormData({ ...formData, [name]: inputValue, animalNotAcept: inputValue === 1 ? 0 : 1 });
     } else if (name === 'furnitureFurnished') {
       setFormData({ ...formData, [name]: inputValue, furnitureNotFurnished: inputValue === 1 ? 0 : 1 });
+    } else if (name == 'selectedCity') {
+      if (value == 'Belo Horizonte') {
+        setFormData({ ...formData, cityBeloHorizonte: 1, cityCampinas:  0, cityPortoAlegre : 0, cityRiodeJaneiro : 0, citySãoPaulo : 0 });
+      } else if (value == 'Campinas') {
+        setFormData({ ...formData, cityBeloHorizonte: 0, cityCampinas:  1, cityPortoAlegre : 0, cityRiodeJaneiro : 0, citySãoPaulo : 0 });
+      } else if (value == 'Porto Alegre') {
+        setFormData({ ...formData, cityBeloHorizonte: 0, cityCampinas:  0, cityPortoAlegre : 1, cityRiodeJaneiro : 0, citySãoPaulo : 0 });
+      } else if (value == 'Rio de Janeiro') {
+        setFormData({ ...formData, cityBeloHorizonte: 0, cityCampinas:  0, cityPortoAlegre : 0, cityRiodeJaneiro : 1, citySãoPaulo : 0 });
+      } else {
+        setFormData({ ...formData, cityBeloHorizonte: 0, cityCampinas:  0, cityPortoAlegre : 0, cityRiodeJaneiro : 0, citySãoPaulo : 1 });
+      }
+
     } else {
-      setFormData({ ...formData, [name]: inputValue });
+      setFormData({ ...formData, [name]: Number(inputValue) });
     }
   };
 
@@ -170,6 +185,28 @@ function App() {
           <button type="submit">Enviar</button>
         </form>
       </aside>
+      <div className="result">
+        <div>
+          <label>hoa (R$):</label>
+          <span>{formData.hoa}</span>
+        </div>
+        <div>
+          <label>rent amount (R$):</label>
+          <span>{formData.rentAmount}</span>
+        </div>
+        <div>
+          <label>property tax (R$):</label>
+          <span>{formData.propertyTax}</span>
+        </div>
+        <div>
+          <label>fire insurance (R$):</label>
+          <span>{formData.fireInsurance}</span>
+        </div>
+        <div>
+          <label>total (R$):</label>
+          <span>{formData.total}</span>
+        </div>
+      </div>
     </>
   )
 }
