@@ -208,8 +208,8 @@ function App() {
           </div>
           <h3>Visualización de los datos</h3>
           <div className='graphs'>
-            <img src="./tendencias_alquiler.png" alt="Mi Imagen1" />
-            <img src="./correlacion_total.png" alt="Mi Imagen2" />
+            <img src="assets/tendencias_alquiler.png" alt="Mi Imagen1" />
+            <img src="assets/correlacion_total.png" alt="Mi Imagen2" />
           </div>
         </div>
       </div>
